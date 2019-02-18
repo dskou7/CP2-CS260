@@ -1,8 +1,9 @@
 body {
   background-image: url("/images/d2_blank.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   background-position: center;
-  /*background-repeat: no-repeat;
-  background-size: cover;*/
+  background-color: white !important;
   padding-left: 30px;
   padding-right: 30px;
 }
@@ -15,67 +16,8 @@ form {
   text-align: center;
 }
 
-.weatherResults {
-    display: inline-grid;
-    /* grid-auto-columns: auto;
-    /* grid-template-columns: 1fr 1fr; */
-    /* grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));*/
-    grid-template-areas:
-        "title title"
-        "images details";
-    grid-gap: 20px;
-    background-color: rgba(0, 0, 0, 0.35);
-    padding-left: 50px;
-    padding-right: 50px;
-    border-radius: 25px;
-  }
-
-  .title {
-    grid-area: title;
-    font-family: serif;
-    text-align: center;
-    font-size: 2em;
-  }
-
-  .images {
-    grid-area: images;
-    text-align: center;
-  }
-
-  .details {
-    grid-area: details;
-    text-align: center;
-
-  }
-
-  .forecastResults{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    /* grid-template-rows: auto; */
-    /* grid-template-areas:
-      "day"; */
-    grid-gap: 20px;
-  }
-
-  .day{
-    display: grid;
-    grid-row-gap: 15px;
-    /* grid-area: day; */
-    grid-template-areas:
-      "chunk"
-      "chunk"
-      "chunk"
-      "chunk"
-      "chunk"
-      "chunk"
-      "chunk"
-      "chunk";
-  }
-
-.chunk {
-  /* grid-area: chunk; */
+p.footer {
+  color: #CCC;
+  width: 100% !important;
   text-align: center;
-  grid-gap: 20px;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
 }
