@@ -21,3 +21,19 @@ p.footer {
   width: 100% !important;
   text-align: center;
 }
+
+.Results {
+  margin: auto;
+  width: 500px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-position: center;
+  text-shadow: 2px 2px 4px #fff !important;
+}
+
+.Profile {
+  text-align: center;
+  margin: auto;
+  width: 500px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
