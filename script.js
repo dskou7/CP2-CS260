@@ -5,48 +5,50 @@ document.getElementById("d2Submit").addEventListener("click", function(event) {
     return;
   console.log(value);
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  var key = "69d2f2e52ced40e5b0e4243a02de5535";
   var platformID;
   var playerID;
   var charID;
-  const url_search = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + value + "/" + "&X-API-KEY=69d2f2e52ced40e5b0e4243a02de5535";
-  fetch(proxyurl+url_search)
-  //const url_search = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + value + "/";
-  //httpGet(url_search, key)
-  .then(function(response) {
-    return response.json();
-  }).then(function(json) {
-    console.log("!bungo JSON");
-    console.log(json);
-    console.log("!END bungo JSON");
-    platformID = json.Response.membershipType;
-    playerID = json.Response.membershipId
-    let results = "";
-    //title
-    results += "<img src='https://www.bungie.net" + json.Response.iconPath + "'>";
-    results += "<h1>" + json.Response.displayName + "</h1>"
-    //aaaaand go ahead and print that baby out
-    document.getElementById("Results").innerHTML = results;
-  }).catch(() => console.log("failure on search URL"));
-  const url_pofile = "https://www.bungie.net/Platform/Destiny2/" + platformID + playerID + "/?components=100" + "&X-API-KEY=69d2f2e52ced40e5b0e4243a02de5535";
-  fetch(proxyurl + url_pofile)
-  //const url_pofile = "https://www.bungie.net/Platform/Destiny2/" + platformID + playerID + "/?components=100";
-  //httpGet(url_pofile, key)
-  .then(function(response) {
-    return response.json();
-  }).then(function(json) {
-    console.log("!profile JSON");
-    console.log(json);
-    console.log("!END pofile JSON");
-  });
+  //const url_search = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + value + "/" + "&X-API-KEY=69d2f2e52ced40e5b0e4243a02de5535";
+  //fetch(url_search)
+  const url_search = proxyurl + "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/-1/" + value + "/";
+  var searchresults = httpGet(url_search);
+  if(searchresults.Response.length == 0){
+    document.getElementById("Results").innerHTML = "<h1> Player not found </h1>"
+    return
+  }
+  platformID = searchresults.Response[0].membershipType;
+  playerID = searchresults.Response[0].membershipId
+  let results = "";
+  //title
+  results += "<h1><img src='https://www.bungie.net" + searchresults.Response[0].iconPath + "'>";
+  results += searchresults.Response[0].displayName + "</h1>"
+  //aaaaand go ahead and print that baby out
+  document.getElementById("Results").innerHTML = results;
+  // ex "https://www.bungie.net/Platform/Destiny2/1/Profile/4611686018430425566/?components=100"
+  const url_pofile = proxyurl + "https://www.bungie.net/Platform/Destiny2/" + platformID + "/Profile/" + playerID + "/?components=100";
+  var profileresults = httpGet(url_pofile)
+  var char1 = profileresults.Response.profile.data.characterIds[0];
+  const url_char = proxyurl + "https://www.bungie.net/Platform/Destiny2/" + platformID + "/Profile/" + playerID + "/Character/" + char1 + "/?components=200"
+  var char1results = httpGet(url_char)
+  let results2 = "";
+  //title
+  //results2 += "<img src='https://www.bungie.net" + char1results.Response.character.data.emblemPath + "'>";
+  results2 += "<img src='https://www.bungie.net" + char1results.Response.character.data.emblemBackgroundPath + "'>";
+  results2 += "<p> Level " + char1results.Response.character.data.baseCharacterLevel + "<br>"
+  results2 += "<p> Gear Level " + char1results.Response.character.data.light + " (light)<br>"
+  results2 += "</p>"
+  //aaaaand go ahead and print that baby out
+  document.getElementById("Profile").innerHTML = results2;
+
 });
 
 
-function httpGet(theUrl,key) {
+function httpGet(theUrl) {
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-  xmlHttp.setRequestHeader("X-API-KEY",key);
-  xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+  xmlHttp.setRequestHeader("X-API-KEY", "69d2f2e52ced40e5b0e4243a02de5535");
   xmlHttp.send( null );
-  return xmlHttp.responseText;
+  console.log(xmlHttp.responseText);
+  console.log("^^ httpget ^^");
+  return JSON.parse(xmlHttp.responseText);
 }
